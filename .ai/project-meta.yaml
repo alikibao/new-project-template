@@ -1,0 +1,22 @@
+# .ai/project-meta.yaml
+project:
+  name: "[PROJECT_NAME]"
+  type: "web-app|api|cli|library"
+  stage: "prototype|mvp|production"
+
+tech_stack:
+  language: "typescript|python|go"
+  framework: "nextjs|fastapi|express"
+  database: "supabase|firestore|postgres"
+  deployment: "vercel|gcp-cloud-run|coolify"
+
+constraints:
+  max_file_size: 200  # lines per file
+  max_complexity: 3   # cyclomatic complexity
+  test_coverage: 80   # minimum percentage
+
+ai_rules:
+  no_caching_until: "v2"
+  no_auth_complexity_until: "v2"
+  prefer_native_over_libraries: true
+  max_dependencies: 10
