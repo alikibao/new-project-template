@@ -1,0 +1,33 @@
+name: AI Development Assistant - New Project
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  process-feature-request:
+    if: startsWith(github.event.comment.body, '/build')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract Feature Request
+        id: parse
+        run: |
+          # Parse /build command
+          echo "feature=$(echo '${{ github.event.comment.body }}' | sed 's/\/build //')" >> $GITHUB_OUTPUT
+
+      - name: Generate Implementation
+        uses: anthropics/claude-code-base-action@beta
+        with:
+          prompt: |
+            Read context from:
+            - .ai/claude.md for standards
+            - .ai/context/current-task.md for current work
+            - .ai/prd/mvp.md for scope
+
+            Implement: ${{ steps.parse.outputs.feature }}
+
+            Follow the patterns, keep it minimal, no over-engineering.
+          allowed_tools: "View,Write,Bash"
+          system_prompt: "You are implementing an MVP. Simplicity over cleverness."
