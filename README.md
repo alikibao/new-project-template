@@ -1,7 +1,3 @@
-Perfect — here’s a **ready-to-drop `README.md`** you can put at the repo root. It explains what the template is, how to use it, and how new teams can build on top of it.
-
----
-
 # AI-Ready Project Starter
 
 A minimal, opinionated repo you can clone to kick off new projects **with an AI coding assistant in mind**.
