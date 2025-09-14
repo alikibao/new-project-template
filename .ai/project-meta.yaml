@@ -1,22 +1,61 @@
-# .ai/project-meta.yaml
-project:
-  name: "[PROJECT_NAME]"
-  type: "web-app|api|cli|library"
-  stage: "prototype|mvp|production"
+# meta_version: bump on schema changes
+meta_version: 1
 
-tech_stack:
-  language: "typescript|python|go"
-  framework: "nextjs|fastapi|express"
-  database: "supabase|firestore|postgres"
-  deployment: "vercel|gcp-cloud-run|coolify"
+repo:
+  url: "git@github.com:org/new-project.git"      # canonical origin
+  default_branch: "main"
 
-constraints:
-  max_file_size: 200  # lines per file
-  max_complexity: 3   # cyclomatic complexity
-  test_coverage: 80   # minimum percentage
+languages: ["ts", "tsx"]                         # primary languages
+package_manager: "pnpm"                          # npm | pnpm | yarn
 
-ai_rules:
-  no_caching_until: "v2"
-  no_auth_complexity_until: "v2"
-  prefer_native_over_libraries: true
-  max_dependencies: 10
+commands:                                        # single source of truth
+  build: "pnpm -w build"
+  test: "pnpm -w test"
+  lint: "pnpm -w lint"
+  format: "pnpm -w fmt"
+  run: "pnpm -w dev"
+
+code_style:
+  conventions: ["Conventional Commits", "Prettier", "ESLint"]
+  tsconfig: "tsconfig.base.json"
+  test_match: ["**/*.test.ts", "**/*.spec.ts"]
+  coverage_thresholds:
+    statements: 80
+    branches: 75
+    functions: 80
+    lines: 80
+
+branching:
+  pattern: "feat/FEAT-<id>-TASK-<date>-<slug>"   # assistant should follow
+
+constraints:                                     # task-size guardrails
+  max_files_touched: 3
+  max_loc_change: 150
+  max_minutes_per_task: 90
+
+environments:
+  local:
+    start: "pnpm -w dev"
+    urls: ["http://localhost:3000"]
+  staging:
+    urls: ["https://staging.example.com"]
+  production:
+    urls: []
+
+secrets:
+  env_files: [".env.example"]                     # never commit real secrets
+  notes: "Use environment variables or a secret manager."
+
+ci:
+  commands:
+    - "pnpm -w lint"
+    - "pnpm -w test -- --reporter=dot"
+
+review:
+  owners: ["@you", "@teammate"]                   # default reviewers
+  checklist: ["tests included", "no breaking API", "security notes present"]
+
+# Optional: quick log of contract changes
+changelog:
+  - date: 2025-09-14
+    change: "Initial template"
